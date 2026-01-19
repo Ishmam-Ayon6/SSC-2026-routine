@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC 2026 Portal Pro</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: rgba(30, 41, 59, 0.7);
+            --accent: #8b5cf6;
+            --text: #f8fafc;
+        }
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Countdown Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--accent), #d946ef);
+            padding: 25px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .timer-unit { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; }
+        .timer-unit span { display: block; font-size: 1.2rem; font-weight: 800; }
+        .timer-unit label { font-size: 0.6rem; text-transform: uppercase; opacity: 0.8; }
+
+        /* Search Bar */
+        .search-box {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        input { background: transparent; border: none; color: white; width: 100%; margin-left: 10px; outline: none; }
+
+        /* Routine List */
+        .routine-card {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .exam-row {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .exam-row:hover { background: rgba(255,255,255,0.05); transform: translateX(5px); }
+        .date-circle {
+            width: 50px; height: 50px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 0.7rem;
+        }
+        .date-circle b { font-size: 1.1rem; }
+
+        .sub-details { flex: 1; }
+        .sub-details h4 { margin: 0; font-size: 1rem; }
+        .sub-details p { margin: 0; font-size: 0.8rem; color: #94a3b8; }
+
+        .status-pill { font-size: 0.7rem; background: #22c55e33; color: #22c55e; padding: 4px 10px; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="hero">
+        <h2 style="margin:0; font-size: 1rem;">SSC 2026 MISSION</h2>
+        <div class="timer-grid" id="countdown">
+            <div class="timer-unit"><span id="days">92</span><label>Days</label></div>
+            <div class="timer-unit"><span id="hours">14</span><label>Hours</label></div>
+            <div class="timer-unit"><span id="mins">05</span><label>Mins</label></div>
+            <div class="timer-unit"><span id="secs">22</span><label>Secs</label></div>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <i data-lucide="search" size="18"></i>
+        <input type="text" placeholder="Search subject or code...">
+    </div>
+
+    <div class="routine-card">
+        <div class="exam-row">
+            <div class="date-circle"><b>21</b>APR</div>
+            <div class="sub-details">
+                <h4>Bangla 1st Paper</h4>
+                <p>Subject Code: 101 • 10:00 AM</p>
+            </div>
+            <div class="status-pill">Mandatory</div>
+        </div>
+        <div class="exam-row">
+            <div class="date-circle" style="border-color:#d946ef"><b>03</b>MAY</div>
+            <div class="sub-details">
+                <h4>Mathematics</h4>
+                <p>Subject Code: 109 • 10:00 AM</p>
+            </div>
+            <div class="status-pill">Core</div>
+        </div>
+        <div class="exam-row">
+            <div class="date-circle"><b>17</b>MAY</div>
+            <div class="sub-details">
+                <h4>Higher Math</h4>
+                <p>Subject Code: 126 • 10:00 AM</p>
+            </div>
+            <div class="status-pill">Elective</div>
+        </div>
+    </div>
+
+    <p style="text-align:center; font-size: 0.7rem; color: #64748b; margin-top: 20px;">
+        <i data-lucide="info" size="12"></i> Practical window opens June 07, 2026
+    </p>
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // Countdown Logic
+    const examDate = new Date("April 21, 2026 10:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = examDate - now;
+        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+    }, 1000);
+</script>
+</body>
+</html>
